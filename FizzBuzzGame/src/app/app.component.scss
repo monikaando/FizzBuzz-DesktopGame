@@ -1,0 +1,78 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  //Tooltip
+  /* Tooltip container */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    //border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltip-text {
+    visibility: hidden;
+    width: 225px;
+    background-color: #e3e3e3;
+    color: #404040;
+    line-height: 1.6em;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltip-text {
+    visibility: visible;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 8%;
+  }
+
+  button {
+    cursor: pointer;
+    width: 250px;
+    height: 100px;
+    margin: 0 2%;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: 0;
+    box-shadow: 12px 21px 17px -2px rgba(209, 209, 209, 0.56);
+  }
+
+  button:focus {
+    outline: none;
+    background-color: darkgrey;
+  }
+
+  .bt-1 {
+    background-color: #be5683;
+  }
+
+  .bt-2 {
+    background-color: #0f4c75;
+    color: whitesmoke;
+  }
+
+  .bt-3 {
+    background-color: #ffa931;
+  }
+  .fizzBuzz {
+    margin-top:8%;
+    h1 {
+      font-size: 6em;
+    }
+  }
+}
