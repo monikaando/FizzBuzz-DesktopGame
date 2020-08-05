@@ -8,7 +8,7 @@ import {FizzBuzzService} from "../services/fizzBuzz.service";
 })
 export class AppComponent implements OnInit{
   title = 'FizzBuzzGame';
-  gameArray: any;
+  gameArray: number | string;
   constructor(protected fizzBuzzService:FizzBuzzService ) {
   }
   ngOnInit(): void {

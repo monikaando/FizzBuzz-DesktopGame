@@ -15,7 +15,7 @@ export class FizzBuzzService {
   buzz$: Observable<string> = this.counter$.pipe
   (map(n => n % 5 === 0 ? 'Buzz' : null));
 
-  fizzBuzz(): Observable<any> {
+  fizzBuzz(): Observable<number | string> {
     return zip(this.counter$, this.fizz$, this.buzz$)
       .pipe(
         map(
