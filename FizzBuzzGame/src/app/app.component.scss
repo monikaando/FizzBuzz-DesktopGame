@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 2%;
 
   //Tooltip
   /* Tooltip container */
@@ -10,12 +11,16 @@
     position: relative;
     display: inline-block;
     //border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    h1 {
+      font-size: 3em;
+      margin-bottom:2px;
+    }
   }
 
   /* Tooltip text */
   .tooltip .tooltip-text {
     visibility: hidden;
-    width: 225px;
+    width: 330px;
     background-color: #e3e3e3;
     color: #404040;
     line-height: 1.6em;
@@ -37,7 +42,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 8%;
+    margin-top: 9%;
   }
 
   button {
@@ -70,9 +75,14 @@
     background-color: #ffa931;
   }
   .fizzBuzz {
-    margin-top:8%;
+    margin-top:5%;
     h1 {
       font-size: 6em;
     }
+  }
+  .bt-start {
+    width: 420px;
+    background-color: #d4d4d4;
+    margin:0;
   }
 }
