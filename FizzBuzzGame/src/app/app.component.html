@@ -10,14 +10,14 @@
     </span>
   </div>
   <div class="buttons">
-    <button class="bt-1" (click)="onFizzClick()">Fizz</button>
-    <button class="bt-2" (click)="onFizzBuzzClick()">FizzBuzz</button>
-    <button class="bt-3" (click)="onBuzzClick()">Buzz</button>
+    <button id="bt-1" (click)="onFizzClick()">Fizz</button>
+    <button id="bt-2" (click)="onFizzBuzzClick()">FizzBuzz</button>
+    <button id="bt-3" (click)="onBuzzClick()">Buzz</button>
   </div>
   <div class="fizzBuzz">
-    <h1>{{fbVal}}</h1>
+    <h1>{{game}}</h1>
   </div>
-  <div *ngIf="!fbVal">
-    <button class="bt-start" (click)="onStartClick()">Start</button>
+  <div *ngIf="!game">
+    <button id="bt-start" (click)="onStartClick()">Start</button>
   </div>
 </div>
