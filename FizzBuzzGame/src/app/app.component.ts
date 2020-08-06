@@ -82,3 +82,4 @@ export class AppComponent implements OnInit {
 // async? for measuring points (change an order)
 // better alert
 // click in Rx JS?
+// decide where and ow user supposed to click right button
