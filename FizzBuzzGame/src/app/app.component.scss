@@ -3,35 +3,33 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 2%;
+  margin-top: 1%;
 
   //Tooltip
   /* Tooltip container */
   .tooltip {
     position: relative;
     display: inline-block;
-    //border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    .tooltip-text {
+      visibility: hidden;
+      width: 330px;
+      background-color: #e3e3e3;
+      color: #404040;
+      line-height: 1.6em;
+      text-align: center;
+      padding: 5px 0;
+      border-radius: 6px;
+
+      /* Position the tooltip text */
+      position: absolute;
+      z-index: 1;
+    }
     h1 {
       font-size: 3em;
-      margin-bottom:2px;
+      margin: 2% 0 0 0;
     }
   }
 
-  /* Tooltip text */
-  .tooltip .tooltip-text {
-    visibility: hidden;
-    width: 330px;
-    background-color: #e3e3e3;
-    color: #404040;
-    line-height: 1.6em;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
-    position: absolute;
-    z-index: 1;
-  }
 
   /* Show the tooltip text when you mouse over the tooltip container */
   .tooltip:hover .tooltip-text {
@@ -54,11 +52,11 @@
     font-weight: bold;
     border-radius: 15px;
     border: 0;
+    outline: none;
     box-shadow: 12px 21px 17px -2px rgba(209, 209, 209, 0.56);
   }
 
-  button:focus {
-    outline: none;
+  button:active{
     background-color: darkgrey;
   }
 

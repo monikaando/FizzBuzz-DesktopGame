@@ -1,4 +1,5 @@
 <div class="game">
+  <h3>Score: {{score}}</h3>
   <div class="tooltip">
     <h1>FizzBuzz Game!</h1>
     <span class="tooltip-text">
@@ -9,14 +10,14 @@
     </span>
   </div>
   <div class="buttons">
-    <button class="bt-1">Fizz</button>
-    <button class="bt-2">FizzBuzz</button>
-    <button class="bt-3">Buzz</button>
+    <button class="bt-1" (click)="onFizzClick()">Fizz</button>
+    <button class="bt-2" (click)="onFizzBuzzClick()">FizzBuzz</button>
+    <button class="bt-3" (click)="onBuzzClick()">Buzz</button>
   </div>
   <div class="fizzBuzz">
-    <h1>{{gameArray}}</h1>
+    <h1>{{fbVal}}</h1>
   </div>
-  <div *ngIf="!gameArray">
+  <div *ngIf="!fbVal">
     <button class="bt-start" (click)="onStartClick()">Start</button>
   </div>
 </div>
