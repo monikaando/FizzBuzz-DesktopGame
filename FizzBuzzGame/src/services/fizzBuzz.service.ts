@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {zip, Observable, timer} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {zip, Observable, timer, Subject} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +27,7 @@ export class FizzBuzzService {
         )
       )
   }
+  restart() {
+    window.location.reload();
+  };
 }

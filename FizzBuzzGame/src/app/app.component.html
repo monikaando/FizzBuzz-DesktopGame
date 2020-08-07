@@ -10,9 +10,9 @@
     </span>
   </div>
   <div class="buttons">
-    <button id="bt-1" (click)="onFizzClick()">Fizz</button>
-    <button id="bt-2" (click)="onFizzBuzzClick()">FizzBuzz</button>
-    <button id="bt-3" (click)="onBuzzClick()">Buzz</button>
+    <button id="bt-1" (click)="onButtonClick.next('Fizz')">Fizz</button>
+    <button id="bt-2" (click)="onButtonClick.next('FizzBuzz')">FizzBuzz</button>
+    <button id="bt-3" (click)="onButtonClick.next('Buzz')">Buzz</button>
   </div>
   <div class="fizzBuzz">
     <h1>{{game}}</h1>
