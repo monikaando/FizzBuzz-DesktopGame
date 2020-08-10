@@ -8,10 +8,10 @@ import {map, share} from 'rxjs/operators';
 
 export class FizzBuzzService {
 
-  numbers$: Observable<number> = timer(1000, 1000).pipe
+  numbers$: Observable<number> = timer(1000, 500).pipe
   (map(n => n += 1));
 
-  public numbersStream$: Observable<number> = this.numbers$.pipe(share())
+  public numbersStream$: Observable<number> = this.numbers$.pipe(share());
 
   fizz$: Observable<string> = this.numbers$.pipe
   (map(n => n % 3 === 0 ? 'Fizz' : null));
@@ -20,7 +20,6 @@ export class FizzBuzzService {
   (map(n => n % 5 === 0 ? 'Buzz' : null));
 
   fizzBuzz(): Observable<string> {
-
     return zip(this.numbers$, this.fizz$, this.buzz$)
       .pipe(
         map(
@@ -30,9 +29,9 @@ export class FizzBuzzService {
               buzz$])
               .filter((v) => v !== null).join('')
         )
-      )
+      );
   }
-  restart() {
+  restart(): void {
     window.location.reload();
-  };
+  }
 }

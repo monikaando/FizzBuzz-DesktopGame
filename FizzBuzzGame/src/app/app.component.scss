@@ -60,28 +60,40 @@
   button:active{
     background-color: darkgrey;
   }
-  #bt-number {
+  #numberBtn {
     background-color: #28996c;
     color:white;
   }
-  #bt-1 {
+  #fizzBtn {
     background-color: #be5683;
     color:white;
   }
+  #buzzBtn {
+    background-color: #fc9d1f;
+    color:white;
+  }
 
-  #bt-2 {
+  #fizzBuzzBtn {
     background-color: #1b71ad;
     color:white;
   }
 
-  #bt-3 {
-    background-color: #fc9d1f;
-    color:white;
-  }
   .fizzBuzz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top:5%;
     h1 {
       font-size: 6em;
+    }
+    .answer {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-left: 100px;
+      h3 {
+        width: 200px;
+      }
     }
   }
   #bt-start {
