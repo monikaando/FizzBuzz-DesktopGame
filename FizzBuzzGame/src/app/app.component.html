@@ -10,14 +10,15 @@
     </span>
   </div>
   <div class="buttons">
+    <button id="bt-number" (click)="onButtonClick.next('Number')">Number</button>
     <button id="bt-1" (click)="onButtonClick.next('Fizz')">Fizz</button>
-    <button id="bt-2" (click)="onButtonClick.next('FizzBuzz')">FizzBuzz</button>
     <button id="bt-3" (click)="onButtonClick.next('Buzz')">Buzz</button>
+    <button id="bt-2" (click)="onButtonClick.next('FizzBuzz')">FizzBuzz</button>
   </div>
   <div class="fizzBuzz">
-    <h1>{{game}}</h1>
+    <h1>{{numbers}}</h1>
   </div>
   <div *ngIf="!game">
-    <button id="bt-start" (click)="onStartClick()">Start</button>
+    <button id="bt-start" (click)="onStartClick.next(true)">Start</button>
   </div>
 </div>

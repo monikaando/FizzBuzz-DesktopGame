@@ -54,23 +54,29 @@
     border: 0;
     outline: none;
     box-shadow: 12px 21px 17px -2px rgba(209, 209, 209, 0.56);
+
   }
 
   button:active{
     background-color: darkgrey;
   }
-
+  #bt-number {
+    background-color: #28996c;
+    color:white;
+  }
   #bt-1 {
     background-color: #be5683;
+    color:white;
   }
 
   #bt-2 {
-    background-color: #0f4c75;
-    color: whitesmoke;
+    background-color: #1b71ad;
+    color:white;
   }
 
   #bt-3 {
-    background-color: #ffa931;
+    background-color: #fc9d1f;
+    color:white;
   }
   .fizzBuzz {
     margin-top:5%;
