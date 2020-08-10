@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {zip, Observable, timer} from 'rxjs';
+import {zip, Observable, timer, fromEvent} from 'rxjs';
 import {map, share} from 'rxjs/operators';
 
 @Injectable({
@@ -8,7 +8,7 @@ import {map, share} from 'rxjs/operators';
 
 export class FizzBuzzService {
 
-  numbers$: Observable<number> = timer(1000, 500).pipe
+  numbers$: Observable<number> = timer(1000, 4000).pipe
   (map(n => n += 1));
 
   public numbersStream$: Observable<number> = this.numbers$.pipe(share());
@@ -31,6 +31,8 @@ export class FizzBuzzService {
         )
       );
   }
+
+
   restart(): void {
     window.location.reload();
   }

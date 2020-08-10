@@ -10,10 +10,10 @@
     </span>
   </div>
   <div class="buttons">
-    <button id="numberBtn" (click)="onButtonClick.next('Number')">Number</button>
-    <button id="fizzBtn" (click)="onButtonClick.next('Fizz')">Fizz</button>
-    <button id="buzzBtn" (click)="onButtonClick.next('Buzz')">Buzz</button>
-    <button id="fizzBuzzBtn" (click)="onButtonClick.next('FizzBuzz')">FizzBuzz</button>
+    <button id="numberBtn" value="Null" (click)="onButtonClick.next('Number')">Number</button>
+    <button id="fizzBtn" value="Fizz" (click)="onButtonClick.next('Fizz')">Fizz</button>
+    <button id="buzzBtn" value="Buzz" (click)="onButtonClick.next('Buzz')">Buzz</button>
+    <button id="fizzBuzzBtn" value="fizzBuzzBtn" (click)="onButtonClick.next('FizzBuzz')">FizzBuzz</button>
   </div>
   <div class="fizzBuzz">
     <h1>{{numbers}}</h1>
