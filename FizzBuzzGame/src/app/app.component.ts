@@ -1,4 +1,4 @@
-import {Component, ElementRef,OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FizzBuzzService} from '../services/fizzBuzz.service';
 import {map, switchMap, mapTo, first, share, delay, scan} from 'rxjs/operators';
 import {isNumeric} from 'rxjs/internal-compatibility';
@@ -13,13 +13,11 @@ import {concat} from 'ramda';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
   title = 'FizzBuzzGame';
-  game: string | number;
-  user: any;
   numbers: number;
-  score= 0;
+  score = 0;
+
   public onStartClick = new Subject<boolean>();
 
   constructor(protected fizzBuzzService: FizzBuzzService) {
@@ -39,7 +37,7 @@ export class AppComponent implements OnInit{
   }
 
   playGame() {
-    type Choice = 'Fizz' | 'Buzz' | 'FizzBuzz' | 'None'
+    type Choice = 'Number' | 'Fizz' | 'Buzz' | 'FizzBuzz'
     type Input = Choice | null
 
     const numberBtn = fromEvent(this.numberButton.nativeElement, 'click');
@@ -53,7 +51,7 @@ export class AppComponent implements OnInit{
         fizzBtn.pipe(mapTo('Fizz')),
         buzzBtn.pipe(mapTo('Buzz')),
         fizzBuzzBtn.pipe(mapTo('FizzBuzz')),
-        this.fizzBuzzService.numbers$.pipe(mapTo('Number')),
+        this.fizzBuzzService.numbers$.pipe(mapTo('')),
       ).pipe<Input>(
         first(null, null),
       );
@@ -83,8 +81,8 @@ export class AppComponent implements OnInit{
 
     const score$ = game$.pipe
     (scan((score, [numb, correctAnswer, userAnswer]) =>
-      isNumeric(correctAnswer) && "Number" ||
-      correctAnswer === userAnswer ? score + 1 : score - 1, 0)
+      userAnswer && ((isNumeric(correctAnswer) && userAnswer === "Number") ||
+        (correctAnswer === userAnswer)) ? score + 1 : score - 1, 0)
     )
 
     const answers$ = game$.pipe
@@ -94,74 +92,19 @@ export class AppComponent implements OnInit{
     const fizzBuzzGame$ = zip<[number, Answer[]]>(score$, answers$).pipe
     (map(([score, answer]) => ({score, answer} as Results))
     )
+
     fizzBuzzGame$.subscribe((results: Results) => {
-      this.score=results.score;
+      this.score = results.score;
+      this.score === -5 ? this.reset() : null;
       console.log('results', results)
     })
   }
+
+  reset(): void {
+    alert('Game Over!');
+    this.numbers = null;
+    this.score = 0;
+    this.fizzBuzzService.restart();
+  }
 }
-        //
-        // this.fizzBuzzService.fizzBuzz$
-        //   .subscribe((res) => {
-        //     this.game = res;
-        //     (this.user === 'Number' && isNumeric(this.game)) ||
-        //     (this.user === this.game) ? this.score += 1 :
-        //       ((this.user && this.user !== this.game) ||
-        //         ((isNumeric(this.game) === false) && (this.user === '' ||
-        //           this.user === undefined)))
-        //         ? this.score -= 1 : (this.game && !this.user)
-        //         ? this.score += 0 : null;
-        //     this.score === -10 ? this.reset() : null;
-        //     console.log('game: ', this.game);
-        //     console.log('user: ', this.user);
-        //     console.log('score: ', this.score);
-        //   });
-    //  });
-    //
-    // })
-  // }
 
-  // tap(val => console.log(val))
-
-  // playGame(): void {
-  //   this.onStartClick.subscribe((response) => {
-  //     this.fizzBuzzService.numbers$.subscribe((val =>
-  //       this.numbers = val));
-  //
-  //     this.fizzBuzzService.fizzBuzz$
-  //       .subscribe((res) => {
-  //         this.game = res;
-  //         (this.user === 'Number' && isNumeric(this.game)) ||
-  //         (this.user === this.game) ? this.score += 1 :
-  //           ((this.user && this.user !== this.game) ||
-  //             ((isNumeric(this.game) === false) && (this.user === '' ||
-  //               this.user === undefined)))
-  //             ? this.score -= 1 : (this.game && !this.user)
-  //             ? this.score += 0 : null;
-  //         this.score === -10 ? this.reset() : null;
-  //         console.log('game: ', this.game);
-  //         console.log('user: ', this.user);
-  //         console.log('score: ', this.score);
-  //       });
-  //   });
-  //
-  // }
-
-  //
-  // reset(): void {
-  //   alert('Game Over!');
-  //   this.game = null;
-  //   this.fizzBuzzService.restart();
-  // }
-
-
-
-// TO DO:
-// async? for measuring points (change an order) - different method in Rx JS, fromEvent
-// make if ? : else in a  better way?
-// write better rules
-// fromEvent('click', [Your Element]).pipe(
-//   map((event) => event.target.value)
-// )
-//interfaces+types
-//3 input streams
