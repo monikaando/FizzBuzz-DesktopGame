@@ -8,7 +8,7 @@ import {map, share} from 'rxjs/operators';
 
 
 export class FizzBuzzService {
-  numbers$: Observable<number> = timer(0, 1000).pipe(
+  numbers$: Observable<number> = timer(0, 4000).pipe(
     map(n => n += 1),
     share()
   );

@@ -19,7 +19,7 @@ export class AppComponent implements OnInit{
   game: string | number;
   user: any;
   numbers: number;
-  score = 0;
+  score= 0;
   public onStartClick = new Subject<boolean>();
 
   constructor(protected fizzBuzzService: FizzBuzzService) {
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit{
     this.onStartClick.subscribe((response) => {
       this.fizzBuzzService.numbers$.subscribe((val =>
         this.numbers = val))
+      this.playGame();
     })
   }
 
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit{
 
     const numberBtn = fromEvent(this.numberButton.nativeElement, 'click');
     const fizzBtn = fromEvent(this.fizzButton.nativeElement, 'click');
-    const buzzBtn = fromEvent(this.buzzButton.nativeElement, 'buzzBtn');
+    const buzzBtn = fromEvent(this.buzzButton.nativeElement, 'click');
     const fizzBuzzBtn = fromEvent(this.fizzBuzzButton.nativeElement, 'click');
 
     const ChoiceArray = (): Observable<Input> =>
@@ -82,8 +83,10 @@ export class AppComponent implements OnInit{
 
     const score$ = game$.pipe
     (scan((score, [numb, correctAnswer, userAnswer]) =>
+      isNumeric(correctAnswer) && "Number" ||
       correctAnswer === userAnswer ? score + 1 : score - 1, 0)
     )
+
     const answers$ = game$.pipe
     (scan<[number, Choice, Input], Answer[]>((answer, [numb, correct, user]) =>
       concat(answer, [{numb, correct, user}]), []))
@@ -91,13 +94,12 @@ export class AppComponent implements OnInit{
     const fizzBuzzGame$ = zip<[number, Answer[]]>(score$, answers$).pipe
     (map(([score, answer]) => ({score, answer} as Results))
     )
-    // this.onStartClick.subscribe((response) => {
-    //   fizzBuzzGame$.subscribe((results: Results) => {
-    //     this.fizzBuzzService.numbers$.subscribe((val =>
-    //       this.numbers = val));
-    //   })
-    // })
+    fizzBuzzGame$.subscribe((results: Results) => {
+      this.score=results.score;
+      console.log('results', results)
+    })
   }
+}
         //
         // this.fizzBuzzService.fizzBuzz$
         //   .subscribe((res) => {
@@ -145,13 +147,13 @@ export class AppComponent implements OnInit{
   //
   // }
 
+  //
+  // reset(): void {
+  //   alert('Game Over!');
+  //   this.game = null;
+  //   this.fizzBuzzService.restart();
+  // }
 
-  reset(): void {
-    alert('Game Over!');
-    this.game = null;
-    this.fizzBuzzService.restart();
-  }
-}
 
 
 // TO DO:
