@@ -10,19 +10,15 @@
     </span>
   </div>
   <div class="buttons">
-    <button id="numberBtn" value="Null" (click)="onButtonClick.next('Number')">Number</button>
-    <button id="fizzBtn" value="Fizz" (click)="onButtonClick.next('Fizz')">Fizz</button>
-    <button id="buzzBtn" value="Buzz" (click)="onButtonClick.next('Buzz')">Buzz</button>
-    <button id="fizzBuzzBtn" value="fizzBuzzBtn" (click)="onButtonClick.next('FizzBuzz')">FizzBuzz</button>
+    <button id="numberBtn" #numberButton>Number</button>
+    <button id="fizzBtn" #fizzButton>Fizz</button>
+    <button id="buzzBtn" #buzzButton>Buzz</button>
+    <button id="fizzBuzzBtn" #fizzBuzzButton>FizzBuzz</button>
   </div>
   <div class="fizzBuzz">
     <h1>{{numbers}}</h1>
-<!--    <div class="answer" *ngIf="numbers">-->
-<!--      <h3>You: {{clickVal}} </h3>-->
-<!--      <h3>Game: {{game}} </h3>-->
-<!--    </div>-->
   </div>
-  <div *ngIf="!game">
+  <div *ngIf="!numbers">
     <button id="bt-start" (click)="onStartClick.next(true)">Start</button>
   </div>
 </div>

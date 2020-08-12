@@ -1,92 +1,150 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef,OnInit, ViewChild} from '@angular/core';
 import {FizzBuzzService} from '../services/fizzBuzz.service';
-import {map, switchMap} from 'rxjs/operators';
+import {map, switchMap, mapTo, first, share, delay, scan} from 'rxjs/operators';
 import {isNumeric} from 'rxjs/internal-compatibility';
-import {fromEvent, merge, Subject} from 'rxjs';
+import {fromEvent, Observable, merge, Subject, zip} from 'rxjs';
+import {concat} from 'ramda';
 
-const getButton = (id) => {
-  const button$ = fromEvent(document.getElementById(id), 'click')
-    .pipe(
-      map((event) => event.target['value'])
-    )
-}
+//ng if fizzBuzz$ | async as fizzBuzz w html
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+
+export class AppComponent implements OnInit{
 
   title = 'FizzBuzzGame';
-  game: string | number; // FizzBuzz Values
+  game: string | number;
   user: any;
   numbers: number;
-  clickVal: any; // clicked Values
   score = 0;
   public onStartClick = new Subject<boolean>();
-  public onButtonClick = new Subject<string>();
-
 
   constructor(protected fizzBuzzService: FizzBuzzService) {
   }
 
+  @ViewChild('numberButton', {static: true}) numberButton: ElementRef;
+  @ViewChild('fizzButton', {static: true}) fizzButton: ElementRef;
+  @ViewChild('buzzButton', {static: true}) buzzButton: ElementRef;
+  @ViewChild('fizzBuzzButton', {static: true}) fizzBuzzButton: ElementRef;
+
   ngOnInit(): void {
-    this.playGame();
-  }
-
-  playGame(): void {
     this.onStartClick.subscribe((response) => {
-      this.fizzBuzzService.numbersStream$.subscribe((val =>
-        this.numbers = val));
+      this.fizzBuzzService.numbers$.subscribe((val =>
+        this.numbers = val))
+    })
+  }
 
-      this.fizzBuzzService.fizzBuzz()
+  playGame() {
+    type Choice = 'Fizz' | 'Buzz' | 'FizzBuzz' | 'None'
+    type Input = Choice | null
+
+    const numberBtn = fromEvent(this.numberButton.nativeElement, 'click');
+    const fizzBtn = fromEvent(this.fizzButton.nativeElement, 'click');
+    const buzzBtn = fromEvent(this.buzzButton.nativeElement, 'buzzBtn');
+    const fizzBuzzBtn = fromEvent(this.fizzBuzzButton.nativeElement, 'click');
+
+    const ChoiceArray = (): Observable<Input> =>
+      merge<Choice>(
+        numberBtn.pipe(mapTo('Number')),
+        fizzBtn.pipe(mapTo('Fizz')),
+        buzzBtn.pipe(mapTo('Buzz')),
+        fizzBuzzBtn.pipe(mapTo('FizzBuzz')),
+        this.fizzBuzzService.numbers$.pipe(mapTo('Number')),
+      ).pipe<Input>(
+        first(null, null),
+      );
+
+    const game$ = zip<[number, Choice, Input]>(
+      this.fizzBuzzService.numbers$,
+      this.fizzBuzzService.fizzBuzz$,
+      this.fizzBuzzService.numbers$
         .pipe(
-          switchMap(this.getButtons))
-        .subscribe((response) => {
-          this.user = response;
-        });
+          delay(1),
+          switchMap(ChoiceArray)
+        )
+    ).pipe(
+      share()
+    );
 
-      this.fizzBuzzService.fizzBuzz()
+    interface Answer {
+      numb: number;
+      correct: Choice;
+      user: Input;
+    }
 
-        .subscribe((res) => {
-          this.game = res;
-          (this.clickVal === 'Number' && isNumeric(this.game)) || (this.clickVal === this.game) ? this.score += 1 :                     // proper button clicked: +1 point
-            ((this.clickVal && this.clickVal !== this.game) ||              // if you clicked, but wrong button or
-              ((isNumeric(this.game) === false)     // there is a word in game (Fizz, Buzz, FizzBuzz)
-                && (this.clickVal === '' || this.clickVal === undefined))) // and you didn't click anything when you supposed to
-              ? this.score -= 1 :                                        // then:-1 point
-              (this.game && !this.clickVal)                             // if the game is ON but you didn't click anything and there is a number
-                ? this.score += 0 : null;                              // do nothing with 'score'
-          this.score === -5 ? this.reset() : null;
-          console.log('game: ', this.game);
-          console.log('clickVal: ', this.clickVal);
-          console.log('score: ', this.score);// if you reach -5 points = Game Over! and reset te game
-        });
-    });
+    interface Results {
+      score: number;
+      answer: Answer[];
+    }
 
-    this.onButtonClick.subscribe((response) => {
-      this.clickVal = response;
-      // this.clear();
-      // console.log('onButtonClick.subscribe', response);
+    const score$ = game$.pipe
+    (scan((score, [numb, correctAnswer, userAnswer]) =>
+      correctAnswer === userAnswer ? score + 1 : score - 1, 0)
+    )
+    const answers$ = game$.pipe
+    (scan<[number, Choice, Input], Answer[]>((answer, [numb, correct, user]) =>
+      concat(answer, [{numb, correct, user}]), []))
 
-    });
+    const fizzBuzzGame$ = zip<[number, Answer[]]>(score$, answers$).pipe
+    (map(([score, answer]) => ({score, answer} as Results))
+    )
+    // this.onStartClick.subscribe((response) => {
+    //   fizzBuzzGame$.subscribe((results: Results) => {
+    //     this.fizzBuzzService.numbers$.subscribe((val =>
+    //       this.numbers = val));
+    //   })
+    // })
   }
-
-  getButtons() {
-    return merge([
-      getButton('numberBtn'),
-      getButton('fizzBtn'),
-      getButton('buzzBtn'),
-      getButton('fizzBuzzBtn')
-    ])
-  }
-
-
-  // clear(): void {
-  //   setTimeout(() => {
-  //     this.clickVal = '';
-  //   }, 3000);
+        //
+        // this.fizzBuzzService.fizzBuzz$
+        //   .subscribe((res) => {
+        //     this.game = res;
+        //     (this.user === 'Number' && isNumeric(this.game)) ||
+        //     (this.user === this.game) ? this.score += 1 :
+        //       ((this.user && this.user !== this.game) ||
+        //         ((isNumeric(this.game) === false) && (this.user === '' ||
+        //           this.user === undefined)))
+        //         ? this.score -= 1 : (this.game && !this.user)
+        //         ? this.score += 0 : null;
+        //     this.score === -10 ? this.reset() : null;
+        //     console.log('game: ', this.game);
+        //     console.log('user: ', this.user);
+        //     console.log('score: ', this.score);
+        //   });
+    //  });
+    //
+    // })
   // }
+
+  // tap(val => console.log(val))
+
+  // playGame(): void {
+  //   this.onStartClick.subscribe((response) => {
+  //     this.fizzBuzzService.numbers$.subscribe((val =>
+  //       this.numbers = val));
+  //
+  //     this.fizzBuzzService.fizzBuzz$
+  //       .subscribe((res) => {
+  //         this.game = res;
+  //         (this.user === 'Number' && isNumeric(this.game)) ||
+  //         (this.user === this.game) ? this.score += 1 :
+  //           ((this.user && this.user !== this.game) ||
+  //             ((isNumeric(this.game) === false) && (this.user === '' ||
+  //               this.user === undefined)))
+  //             ? this.score -= 1 : (this.game && !this.user)
+  //             ? this.score += 0 : null;
+  //         this.score === -10 ? this.reset() : null;
+  //         console.log('game: ', this.game);
+  //         console.log('user: ', this.user);
+  //         console.log('score: ', this.score);
+  //       });
+  //   });
+  //
+  // }
+
 
   reset(): void {
     alert('Game Over!');
@@ -103,3 +161,5 @@ export class AppComponent implements OnInit {
 // fromEvent('click', [Your Element]).pipe(
 //   map((event) => event.target.value)
 // )
+//interfaces+types
+//3 input streams
