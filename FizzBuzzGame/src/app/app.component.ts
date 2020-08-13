@@ -5,8 +5,6 @@ import {isNumeric} from 'rxjs/internal-compatibility';
 import {fromEvent, Observable, merge, Subject, zip} from 'rxjs';
 import {concat} from 'ramda';
 
-//ng if fizzBuzz$ | async as fizzBuzz w html
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,8 +13,10 @@ import {concat} from 'ramda';
 
 export class AppComponent implements OnInit {
   title = 'FizzBuzzGame';
-  numbers: number;
   score = 0;
+  numbers: number;
+  answers: any[];
+  status: boolean[];
 
   public onStartClick = new Subject<boolean>();
 
@@ -51,12 +51,12 @@ export class AppComponent implements OnInit {
         fizzBtn.pipe(mapTo('Fizz')),
         buzzBtn.pipe(mapTo('Buzz')),
         fizzBuzzBtn.pipe(mapTo('FizzBuzz')),
-        this.fizzBuzzService.numbers$.pipe(mapTo('')),
+        this.fizzBuzzService.numbers$.pipe(mapTo('-')),
       ).pipe<Input>(
         first(null, null),
       );
 
-    const game$ = zip<[number, Choice, Input]>(
+    const game$ = zip<[number, Choice, Input, number[]]>(
       this.fizzBuzzService.numbers$,
       this.fizzBuzzService.fizzBuzz$,
       this.fizzBuzzService.numbers$
@@ -72,6 +72,7 @@ export class AppComponent implements OnInit {
       numb: number;
       correct: Choice;
       user: Input;
+      points: number;
     }
 
     interface Results {
@@ -85,26 +86,30 @@ export class AppComponent implements OnInit {
         (correctAnswer === userAnswer)) ? score + 1 : score - 1, 0)
     )
 
-    const answers$ = game$.pipe
-    (scan<[number, Choice, Input], Answer[]>((answer, [numb, correct, user]) =>
-      concat(answer, [{numb, correct, user}]), []))
+    const answers$ = zip(game$, score$).pipe
+    (scan<[[number, Choice, Input, number[]], number], Answer[]>((answer, [[numb, correct, user], points]) =>
+      concat(answer, [{numb, correct, user, points}]), []))
 
-    const fizzBuzzGame$ = zip<[number, Answer[]]>(score$, answers$).pipe
-    (map(([score, answer]) => ({score, answer} as Results))
-    )
+    const fizzBuzzGame$ = zip<[number, Answer[]]>(score$, answers$).pipe(
+      map(([score, answer]) => ({score, answer} as Results)
+        )
+      )
 
     fizzBuzzGame$.subscribe((results: Results) => {
       this.score = results.score;
-      this.score === -5 ? this.reset() : null;
-      console.log('results', results)
+      this.answers = results.answer;
+      console.log('results',results)
+      this.score === -1 ? this.reset() : null;
     })
+
   }
 
   reset(): void {
     alert('Game Over!');
-    this.numbers = null;
-    this.score = 0;
     this.fizzBuzzService.restart();
   }
+
+  isANumber(val:string): boolean
+    { return isNumeric(val) === true; }
 }
 

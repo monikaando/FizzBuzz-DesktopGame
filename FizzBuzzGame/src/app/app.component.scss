@@ -10,6 +10,7 @@
   .tooltip {
     position: relative;
     display: inline-block;
+
     .tooltip-text {
       visibility: hidden;
       width: 330px;
@@ -24,6 +25,7 @@
       position: absolute;
       z-index: 1;
     }
+
     h1 {
       font-size: 3em;
       margin: 2% 0 0 0;
@@ -57,39 +59,69 @@
 
   }
 
-  button:active{
+  button:active {
     background-color: darkgrey;
   }
+
   #numberBtn {
     background-color: #28996c;
-    color:white;
+    color: white;
   }
+
   #fizzBtn {
     background-color: #be5683;
-    color:white;
+    color: white;
   }
+
   #buzzBtn {
     background-color: #fc9d1f;
-    color:white;
+    color: white;
   }
 
   #fizzBuzzBtn {
     background-color: #1b71ad;
-    color:white;
+    color: white;
   }
 
   .fizzBuzz {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:5%;
+    margin-top: 5%;
+
     h1 {
       font-size: 6em;
     }
   }
+
   #bt-start {
     width: 420px;
     background-color: #d4d4d4;
-    margin:0;
+    margin: 0;
   }
+
+  .history {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 20%;
+    width: 60%;
+
+    .box {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      h4 {
+        width: 100%;
+      }
+      div > h5 {
+        margin:1.2% 0;
+      }
+      .margin-left {
+        margin-left: 7%;
+      }
+    }
+
+  }
+
 }
