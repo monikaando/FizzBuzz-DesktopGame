@@ -29,10 +29,6 @@ export class FizzBuzzService {
               .filter((v) => v !== null).join('')
         )
       )
-  )
-
-  restart(): void {
-    window.location.reload();
-  }
+  );
 
 }

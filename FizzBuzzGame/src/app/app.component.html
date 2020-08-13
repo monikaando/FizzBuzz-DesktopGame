@@ -1,5 +1,5 @@
 <div class="game">
-  <h3>Score: {{score}}</h3>
+  <h3>Score: {{score$}}</h3>
   <div class="tooltip">
     <h1>FizzBuzz Game!</h1>
     <span class="tooltip-text">
@@ -7,21 +7,23 @@
       <b>Fizz</b> - divided by <b>3</b><br>
       <b>Buzz</b> - divided by <b>5</b><br>
       <b>FizBuzz</b> - divided by <b>3</b> and <b>5</b>
+      <b>2 sec</b> for click <b>5</b><br>
     </span>
   </div>
+  <button id="resetBtn" (click)="stopGame()">Reset</button>
   <div class="buttons">
     <button id="numberBtn" #numberButton>Number</button>
     <button id="fizzBtn" #fizzButton>Fizz</button>
     <button id="buzzBtn" #buzzButton>Buzz</button>
     <button id="fizzBuzzBtn" #fizzBuzzButton>FizzBuzz</button>
   </div>
-  <div class="fizzBuzz">
-    <h1>{{numbers}}</h1>
+  <div class="fizzBuzz" *ngIf="numbers$">
+    <h1>{{numbers$ | async}}</h1>
   </div>
-  <div *ngIf="!numbers">
+  <div *ngIf="!numbers$">
     <button id="bt-start" (click)="onStartClick.next(true)">Start</button>
   </div>
-  <div class="history" *ngIf="numbers">
+  <div class="history" *ngIf="numbers$">
     <table>
       <tr>
         <th>Your answer</th>
@@ -29,8 +31,7 @@
         <th>Score</th>
         <th>Status</th>
       </tr>
-
-      <tr *ngFor="let answer of answers">
+      <tr *ngFor="let answer of answers$ | async">
         <td>{{answer.user}}</td>
         <td>{{answer.correct}}</td>
         <td>{{answer.points}}</td>
