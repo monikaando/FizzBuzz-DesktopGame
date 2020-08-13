@@ -88,7 +88,6 @@ export class AppComponent implements OnInit{
     this.game$ = fizzBuzzGame$.subscribe((results: Results) => {
       this.score$ = results.score;
       this.score$ === -1 ? this.reset() : null;
-      console.log(results)
     });
   }
 

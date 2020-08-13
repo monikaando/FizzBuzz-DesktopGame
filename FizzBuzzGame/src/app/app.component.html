@@ -31,7 +31,7 @@
         <th>Score</th>
         <th>Status</th>
       </tr>
-      <tr *ngFor="let answer of answers$ | async">
+      <tr *ngFor="let answer of answers$ | async" >
         <td>{{answer.user}}</td>
         <td>{{answer.correct}}</td>
         <td>{{answer.points}}</td>
