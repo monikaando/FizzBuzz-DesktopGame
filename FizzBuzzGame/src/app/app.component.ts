@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
   score = 0;
   numbers: number;
   answers: any[];
-  status: boolean[];
 
   public onStartClick = new Subject<boolean>();
 
@@ -92,16 +91,15 @@ export class AppComponent implements OnInit {
 
     const fizzBuzzGame$ = zip<[number, Answer[]]>(score$, answers$).pipe(
       map(([score, answer]) => ({score, answer} as Results)
-        )
       )
+    )
 
     fizzBuzzGame$.subscribe((results: Results) => {
       this.score = results.score;
       this.answers = results.answer;
-      console.log('results',results)
+      console.log('results', results)
       this.score === -1 ? this.reset() : null;
     })
-
   }
 
   reset(): void {
@@ -109,7 +107,12 @@ export class AppComponent implements OnInit {
     this.fizzBuzzService.restart();
   }
 
-  isANumber(val:string): boolean
-    { return isNumeric(val) === true; }
+  isANumber(val: string): boolean {
+    return isNumeric(val) === true;
+  }
 }
 
+//refactor html using observables
+//check with tslint
+//click on start button without subject
+// make a table

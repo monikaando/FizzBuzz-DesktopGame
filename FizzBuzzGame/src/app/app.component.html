@@ -22,33 +22,31 @@
     <button id="bt-start" (click)="onStartClick.next(true)">Start</button>
   </div>
   <div class="history" *ngIf="numbers">
-    <div class="box">
-      <h4>Your answer</h4>
-      <div *ngFor="let answer of answers">
-        <h5>{{answer.user}}</h5>
-      </div>
-    </div>
-    <div class="box">
-      <h4>Solution</h4>
-      <div *ngFor="let answer of answers">
-        <h5>{{answer.correct}}</h5>
-      </div>
-    </div>
-    <div class="box">
-      <h4>Score</h4>
-      <div class="margin-left" *ngFor="let answer of answers">
-        <h5>{{answer.points}}</h5>
-      </div>
-    </div>
-    <div class="box">
-      <h4>Status</h4>
-      <div class="margin-left" *ngFor="let answer of answers">
-        <div *ngIf="answer.user && ((answer.user === answer.correct) || (answer.user == 'Number' && isANumber(answer.correct))); else wrongAnswer"><img src="https://res.cloudinary.com/mokaweb/image/upload/c_scale,w_15/v1597313914/PXl.WIDGETS/tick.png" alt="tick">
-        </div>
-        <ng-template #wrongAnswer>
-          <img src="https://res.cloudinary.com/mokaweb/image/upload/c_scale,w_15/v1597313914/PXl.WIDGETS/cross.png" alt="cross">
-        </ng-template>
-      </div>
-    </div>
+    <table>
+      <tr>
+        <th>Your answer</th>
+        <th>Solution</th>
+        <th>Score</th>
+        <th>Status</th>
+      </tr>
+
+      <tr *ngFor="let answer of answers">
+        <td>{{answer.user}}</td>
+        <td>{{answer.correct}}</td>
+        <td>{{answer.points}}</td>
+        <td>
+          <ng-container
+            *ngIf="answer.user && ((answer.user === answer.correct) ||
+          (answer.user == 'Number' && isANumber(answer.correct))); else wrongAnswer">
+            <img src="https://res.cloudinary.com/mokaweb/image/upload/c_scale,w_15/v1597313914/PXl.WIDGETS/tick.png"
+                 alt="tick">
+          </ng-container>
+          <ng-template #wrongAnswer>
+            <img src="https://res.cloudinary.com/mokaweb/image/upload/c_scale,w_15/v1597313914/PXl.WIDGETS/cross.png"
+                 alt="cross">
+          </ng-template>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>

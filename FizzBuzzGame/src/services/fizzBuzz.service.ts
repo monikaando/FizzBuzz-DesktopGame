@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {zip, Observable, timer, fromEvent} from 'rxjs';
+import {zip, Observable, timer} from 'rxjs';
 import {map, share} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-
 
 export class FizzBuzzService {
   numbers$: Observable<number> = timer(0, 2000).pipe(
@@ -20,7 +19,7 @@ export class FizzBuzzService {
   (map(n => n % 5 === 0 ? 'Buzz' : null));
 
   fizzBuzz$: Observable<number | string> = (
-     zip(this.numbers$, this.fizz$, this.buzz$)
+    zip(this.numbers$, this.fizz$, this.buzz$)
       .pipe(
         map(
           ([numbers$, fizz$, buzz$]) =>
@@ -30,9 +29,10 @@ export class FizzBuzzService {
               .filter((v) => v !== null).join('')
         )
       )
-)
+  )
 
   restart(): void {
     window.location.reload();
   }
+
 }
