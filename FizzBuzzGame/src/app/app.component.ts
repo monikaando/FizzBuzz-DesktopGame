@@ -103,7 +103,8 @@ export class AppComponent implements OnInit{
     this.answers$ = null;
   }
 
-  isANumber(val: string): boolean {
-    return isNumeric(val) === true;
+  correctAnswer(userAnswer, gameAnswer):boolean {
+    return userAnswer && ((userAnswer === gameAnswer) ||
+      (userAnswer == 'Number' && isNumeric(gameAnswer)))
   }
 }

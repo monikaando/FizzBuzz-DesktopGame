@@ -2,17 +2,16 @@
 
 ## Provide one or multiple examples of code that you’re proud of and explain why.  Please link the file/lines from Gitlab.
 - {isNumeric} method to check if is a number in a string
+- correctAnswer function created to use in HTML
 - clean and readable code 
 
 ## If you can, provide some examples of code that you’re not proud of and explain why. Please link the file/lines from Gitlab.
 I didn’t succeed with reverse table
 
 ## What are some ways you would like to improve the application if you had time?
-- reverse table ( new data loading on the top)
+- reverse table ( new data loading from the top)
 
 ## What issues did you run into and how did you solve them?
-### Issue: API
-Solution: Going around and being tricky, download data = slow app
 
 ### Issue: Combine answer and score
 Zip

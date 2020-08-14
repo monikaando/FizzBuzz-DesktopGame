@@ -37,8 +37,7 @@
         <td>{{answer.points}}</td>
         <td>
           <ng-container
-            *ngIf="answer.user && ((answer.user === answer.correct) ||
-          (answer.user == 'Number' && isANumber(answer.correct))); else wrongAnswer">
+            *ngIf="correctAnswer(answer.user,answer.correct)===true; else wrongAnswer">
             <img src="https://res.cloudinary.com/mokaweb/image/upload/c_scale,w_15/v1597313914/PXl.WIDGETS/tick.png"
                  alt="tick">
           </ng-container>
