@@ -78,7 +78,7 @@ export class AppComponent implements OnInit{
 
     this.answers$ = zip(game$, score$).pipe
     (scan<[[number, Choice, Input, number[]], number], Answer[]>((answer, [[numb, correct, user], points]) =>
-      concat(answer, [{numb, correct, user, points}]), []));
+      concat([{numb, correct, user, points}], answer), []));
 
     const fizzBuzzGame$ = zip<[number, Answer[]]>(score$, this.answers$).pipe(
       map(([score, answer]) => ({score, answer} as Results)
